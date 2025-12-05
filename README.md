@@ -1,14 +1,24 @@
 # Seattle-Simulator
 
-A satirical Reddit post generator that parodies Seattle-area subreddits using LLM.
+A Reddit bot that generates satirical posts in the style of Seattle-area subreddits using LLM.
 
 ## Features
 
-- **Discord Bot**: `!seattleaf` command to generate posts on demand
-- **CLI**: Manual generation for weekly posts
-- **Subreddit targeting**: Simulate any subreddit's style
-- **User targeting**: Parody a specific Reddit user's posting style
+- **Comment trigger**: Responds to `!seattleaf` commands in monitored subreddits
+- **Subreddit simulation**: Parody any subreddit's posting style
+- **User simulation**: Parody a specific Reddit user's style
+- **CLI mode**: Generate posts manually for weekly shitposting
 - **Free LLM**: Uses Groq's free tier (Llama 3.1)
+
+## Commands
+
+In any monitored subreddit, comment:
+
+```
+!seattleaf              → Simulate r/Seattle (default)
+!seattleaf SeattleWA    → Simulate r/SeattleWA
+!seattleaf u/someone    → Parody a user's posting style
+```
 
 ## Setup
 
@@ -18,24 +28,18 @@ pip install -r requirements.txt
 ```
 
 2. Copy `.env.example` to `.env` and fill in:
-   - **Discord token**: https://discord.com/developers/applications
    - **Reddit API**: https://www.reddit.com/prefs/apps (script type)
    - **Groq API**: https://console.groq.com/keys (free)
 
-## Usage
-
-### Discord Bot
+3. Run the bot:
 ```bash
 python bot.py
 ```
 
-Commands:
-- `!seattleaf` - Generate satirical r/Seattle post
-- `!seattleaf SeattleWA` - Simulate r/SeattleWA
-- `!seattleaf u/someone` - Parody a user's style
-- `!seattlehelp` - Show help
+## CLI Usage
 
-### CLI (for manual posts)
+For manual posts without running the stream:
+
 ```bash
 python cli.py                      # Simulate r/Seattle
 python cli.py SeattleWA            # Simulate r/SeattleWA
@@ -45,9 +49,10 @@ python cli.py Seattle --post       # Generate and post to Reddit
 
 ## How It Works
 
-1. Fetches recent posts/comments from target subreddit or user via Reddit API
-2. Sends context to Llama 3.1 via Groq with Seattle-specific satirical prompts
-3. Returns generated post to Discord or stdout
+1. Monitors specified subreddits for `!seattleaf` comments
+2. Fetches recent posts/comments from target subreddit or user
+3. Sends context to Llama 3.1 via Groq with satirical prompts
+4. Replies with generated parody content
 
 ## License
 
